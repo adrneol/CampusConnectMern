@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Connect</title>
+    <style>
+        /* General Body Styles */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #1a202c;
+            background: linear-gradient(135deg, #0f1419, #1e2a3c); /* Cyber Mode default */
+            transition: background 0.5s ease, color 0.5s ease;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body.night-mode {
+            background: linear-gradient(135deg, #1a202c, #2d3748);
+            color: #e2e8f0;
+        }
+
+        /* Aurora Overlay for Night Mode */
+        body.night-mode::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0, 255, 255, 0.1), rgba(147, 112, 219, 0.1), rgba(0, 255, 255, 0.1));
+            background-size: 200%;
+            animation: auroraShift 20s ease-in-out infinite;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Cyber Rain Canvas (Background for Cyber Mode) */
+        #cyber-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            display: none;
+        }
+
+        /* Cyber Tech Glitch Canvas (Behind Tech Cards in Cyber Mode) */
+        #cyber-tech-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            display: none;
+        }
+
+        /* Stars Canvas (Background for Night Mode) */
+        #stars-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            display: none;
+        }
+
+        /* Glowing Particles Canvas (Behind GIF in Night Mode) */
+        #glow-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* Ensure it’s behind the GIF but above stars */
+            display: none;
+        }
+
+        /* Hero Section Styles */
+        .hero-section {
+            position: relative;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        /* GIF Background Wrapper */
+        .gif-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('assets/images/giff.gif') no-repeat center center/cover;
+            z-index: 1; /* Ensure GIF is above the glow canvas */
+        }
+
+        /* Header inside Hero */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Logo */
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #1a202c; /* Dark color for Cyber Mode */
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.5); /* Neon cyan glow for Cyber Mode */
+            position: relative;
+        }
+
+        body.night-mode .logo {
+            color: white; /* White for Night Mode */
+            text-shadow: 0 0 10px rgba(147, 112, 219, 0.8), 0 0 20px rgba(147, 112, 219, 0.5);
+            animation: moonGlow 3s ease-in-out infinite;
+        }
+
+        /* Navigation Container */
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Navbar Links */
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: white;
+            font-size: 1rem;
+            position: relative;
+            padding: 8px 16px;
+            border-radius: 5px;
+            transition: transform 0.3s ease, background-color 0.3s ease, text-shadow 0.3s ease, color 0.3s ease;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        .nav-links a:hover::before {
+            border-color: #00ffcc; /* Neon cyan for Cyber Mode */
+            animation: glowPulse 1s infinite;
+        }
+
+        body.night-mode .nav-links a:hover::before {
+            border-color: #9370db; /* Purple for Night Mode */
+            animation: glowPulseNight 1s infinite;
+        }
+
+        .nav-links a:hover {
+            color: white;
+            background-color: rgba(0, 255, 204, 0.2);
+            transform: scale(1.15);
+            text-shadow: 0 0 15px rgba(0, 255, 204, 0.8);
+        }
+
+        body.night-mode .nav-links a:hover {
+            background-color: rgba(147, 112, 219, 0.2);
+            text-shadow: 0 0 15px rgba(147, 112, 219, 0.8);
+        }
+
+        /* Mode Toggle Buttons */
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-button {
+            display: flex;
+            align-items: center;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cyber-button {
+            background: linear-gradient(45deg, #00ffcc, #00b7eb);
+            color: #fff;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+        }
+
+        .cyber-button:hover {
+            background: linear-gradient(45deg, #33ffdd, #33c9ff);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.7);
+        }
+
+        .night-button {
+            background: linear-gradient(45deg, #4a5568, #2d3748);
+            color: #e2e8f0;
+            box-shadow: 0 0 10px rgba(147, 112, 219, 0.5);
+        }
+
+        .night-button:hover {
+            background: linear-gradient(45deg, #5a6b8b, #3b4a6b);
+            box-shadow: 0 0 15px rgba(147, 112, 219, 0.7);
+        }
+
+        .toggle-button .icon {
+            margin-right: 6px;
+        }
+
+        .toggle-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Sign In / Sign Up Buttons */
+        .auth-buttons {
+            position: absolute;
+            bottom: 30px;
+            right: 50px;
+            z-index: 2;
+        }
+
+        .auth-buttons button {
+            margin-left: 15px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: #00ffcc; /* Neon cyan for Cyber Mode */
+            color: white;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+
+        .auth-buttons button:hover {
+            background: #00b7eb;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
+        }
+
+        body.night-mode .auth-buttons button {
+            background: #9370db;
+        }
+
+        body.night-mode .auth-buttons button:hover {
+            background: #7b56b3;
+            box-shadow: 0 0 10px rgba(147, 112, 219, 0.5);
+        }
+
+        /* Technologies Section */
+        .technologies {
+            padding: 50px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .technologies h2 {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        /* Tech Cards Grid */
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Tech Card Style */
+        .tech-card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tech-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 255, 204, 0.3);
+        }
+
+        body.night-mode .tech-card {
+            box-shadow: 0 0 10px rgba(147, 112, 219, 0.3);
+            animation: shimmer 2s infinite;
+        }
+
+        body.night-mode .tech-card:hover {
+            box-shadow: 0 10px 20px rgba(147, 112, 219, 0.5);
+        }
+
+        .tech-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .tech-card p {
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+
+        /* Animation Keyframes */
+        @keyframes auroraShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes moonGlow {
+            0% { text-shadow: 0 0 10px rgba(147, 112, 219, 0.8), 0 0 20px rgba(147, 112, 219, 0.5); }
+            50% { text-shadow: 0 0 20px rgba(147, 112, 219, 1), 0 0 30px rgba(147, 112, 219, 0.7); }
+            100% { text-shadow: 0 0 10px rgba(147, 112, 219, 0.8), 0 0 20px rgba(147, 112, 219, 0.5); }
+        }
+
+        @keyframes shimmer {
+            0% { box-shadow: 0 0 10px rgba(147, 112, 219, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(147, 112, 219, 0.5); }
+            100% { box-shadow: 0 0 10px rgba(147, 112, 219, 0.3); }
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 5px rgba(0, 255, 204, 0.5); }
+            50% { box-shadow: 0 0 15px rgba(0, 255, 204, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(0, 255, 204, 0.5); }
+        }
+
+        @keyframes glowPulseNight {
+            0% { box-shadow: 0 0 5px rgba(147, 112, 219, 0.5); }
+            50% { box-shadow: 0 0 15px rgba(147, 112, 219, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(147, 112, 219, 0.5); }
+        }
+
+        @keyframes glitch {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(5px); }
+            40% { transform: translateX(-5px); }
+            60% { transform: translateX(3px); }
+            80% { transform: translateX(-3px); }
+            100% { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="cyber-canvas"></canvas>
+    <canvas id="stars-canvas"></canvas>
+
+    <!-- HERO HEADER SECTION -->
+    <section class="hero-section">
+        <canvas id="glow-canvas"></canvas>
+        <div class="gif-background"></div>
+        <div class="header">
+            <div class="logo">Campus Connect</div>
+            <div class="nav-container">
+                <nav class="nav-links">
+                    <a href="index3.html">Home</a>
+                    <a href="about.html">About Us</a>
+                    <a href="contactus.html">Contact</a>
+                </nav>
+                <div class="mode-toggle">
+                    <button id="cyber-toggle" class="toggle-button cyber-button">
+                        <span class="icon">🌐</span> Cyber
+                    </button>
+                    <button id="night-toggle" class="toggle-button night-button">
+                        <span class="icon">🌙</span> Night
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="auth-buttons">
+            <button><a href="signup.html">Sign Up/ Sign In</a></button>
+        </div>
+    </section>
+
+    <!-- TECHNOLOGY SELECTION SECTION -->
+    <section class="technologies">
+        <canvas id="cyber-tech-canvas"></canvas>
+        <h2>Select a Technology</h2>
+        <div class="tech-grid">
+            <a href="python/py.html" class="tech-card">
+                <img src="assets/images/python.png" alt="Python">
+                <p>Python</p>
+            </a>
+            <a href="c/c.html" class="tech-card">
+                <img src="assets/images/clang.webp" alt="C">
+                <p>C</p>
+            </a>
+            <a href="c++/c++.html" class="tech-card">
+                <img src="assets/images/c++.webp" alt="C++">
+                <p>C++</p>
+            </a>
+            <a href="html/ht.html" class="tech-card">
+                <img src="assets/images/html.png" alt="HTML">
+                <p>HTML</p>
+            </a>
+            <a href="css/cs.html" class="tech-card">
+                <img src="assets/images/css.jpg" alt="CSS">
+                <p>CSS</p>
+            </a>
+        </div>
+    </section>
+
+    <script>
+        // Cyber Rain Animation for Cyber Mode (Full Background)
+        const cyberCanvas = document.getElementById('cyber-canvas');
+        const cyberCtx = cyberCanvas.getContext('2d');
+        cyberCanvas.width = window.innerWidth;
+        cyberCanvas.height = window.innerHeight;
+
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()_+-=[]{}|;:,.<>?';
+        const fontSize = 14;
+        const columns = cyberCanvas.width / fontSize;
+        const drops = [];
+
+        for (let x = 0; x < columns; x++) {
+            drops[x] = 1;
+        }
+
+        function drawCyberRain() {
+            cyberCtx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            cyberCtx.fillRect(0, 0, cyberCanvas.width, cyberCanvas.height);
+
+            cyberCtx.fillStyle = '#00ffcc';
+            cyberCtx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = chars.charAt(Math.floor(Math.random() * chars.length));
+                cyberCtx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > cyberCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+
+            requestAnimationFrame(drawCyberRain);
+        }
+
+        // Cyber Tech Glitch Animation (Behind Tech Cards in Cyber Mode)
+        const cyberTechCanvas = document.getElementById('cyber-tech-canvas');
+        const cyberTechCtx = cyberTechCanvas.getContext('2d');
+        cyberTechCanvas.width = window.innerWidth;
+        cyberTechCanvas.height = document.querySelector('.technologies').offsetHeight;
+
+        let glitchLines = [];
+        class GlitchLine {
+            constructor() {
+                this.y = Math.random() * cyberTechCanvas.height;
+                this.width = Math.random() * 200 + 50;
+                this.height = 2;
+                this.opacity = Math.random() * 0.5 + 0.3;
+                this.offset = 0;
+            }
+
+            draw() {
+                cyberTechCtx.fillStyle = `rgba(0, 255, 204, ${this.opacity})`;
+                cyberTechCtx.fillRect(0, this.y, this.width, this.height);
+            }
+
+            update() {
+                if (Math.random() > 0.9) {
+                    this.offset = (Math.random() - 0.5) * 10;
+                    this.opacity = Math.random() * 0.5 + 0.3;
+                }
+                this.y += (Math.random() - 0.5) * 2;
+                if (this.y < 0) this.y = cyberTechCanvas.height;
+                if (this.y > cyberTechCanvas.height) this.y = 0;
+            }
+        }
+
+        for (let i = 0; i < 10; i++) {
+            glitchLines.push(new GlitchLine());
+        }
+
+        function animateGlitch() {
+            cyberTechCtx.clearRect(0, 0, cyberTechCanvas.width, cyberTechCanvas.height);
+            glitchLines.forEach(line => {
+                cyberTechCtx.save();
+                cyberTechCtx.translate(line.offset, 0);
+                line.draw();
+                cyberTechCtx.restore();
+                line.update();
+            });
+            requestAnimationFrame(animateGlitch);
+        }
+
+        // Stars Animation for Night Mode (Background)
+        const starsCanvas = document.getElementById('stars-canvas');
+        const starsCtx = starsCanvas.getContext('2d');
+        starsCanvas.width = window.innerWidth;
+        starsCanvas.height = window.innerHeight;
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * starsCanvas.width;
+                this.y = -10;
+                this.radius = Math.random() * 2 + 1;
+                this.speed = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.5 + 0.5;
+            }
+
+            draw() {
+                starsCtx.beginPath();
+                starsCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                starsCtx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                starsCtx.shadowColor = '#ffffff';
+                starsCtx.shadowBlur = 5;
+                starsCtx.fill();
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > starsCanvas.height) {
+                    this.y = -10;
+                    this.x = Math.random() * starsCanvas.width;
+                    this.opacity = Math.random() * 0.5 + 0.5;
+                }
+            }
+        }
+
+        const stars = [];
+        for (let i = 0; i < 100; i++) {
+            stars.push(new Star());
+        }
+
+        function animateStars() {
+            starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+            stars.forEach(star => {
+                star.draw();
+                star.update();
+            });
+            requestAnimationFrame(animateStars);
+        }
+
+        // Glowing Particles Behind GIF in Night Mode
+        const glowCanvas = document.getElementById('glow-canvas');
+        const glowCtx = glowCanvas.getContext('2d');
+        glowCanvas.width = window.innerWidth;
+        glowCanvas.height = window.innerHeight;
+
+        class GlowParticle {
+            constructor() {
+                this.x = Math.random() * glowCanvas.width;
+                this.y = Math.random() * glowCanvas.height;
+                this.radius = Math.random() * 3 + 1;
+                this.opacity = Math.random() * 0.3 + 0.2;
+                this.speedX = (Math.random() - 0.5) * 2;
+                this.speedY = (Math.random() - 0.5) * 2;
+            }
+
+            draw() {
+                glowCtx.beginPath();
+                glowCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                glowCtx.fillStyle = `rgba(147, 112, 219, ${this.opacity})`;
+                glowCtx.shadowColor = '#9370db';
+                glowCtx.shadowBlur = 10;
+                glowCtx.fill();
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.opacity -= 0.005;
+
+                if (this.x < 0 || this.x > glowCanvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > glowCanvas.height) this.speedY *= -1;
+
+                return this.opacity > 0;
+            }
+        }
+
+        const glowParticles = [];
+        function spawnGlowParticle() {
+            glowParticles.push(new GlowParticle());
+        }
+
+        function animateGlowParticles() {
+            glowCtx.clearRect(0, 0, glowCanvas.width, glowCanvas.height);
+            glowParticles.forEach((particle, index) => {
+                if (!particle.update()) {
+                    glowParticles.splice(index, 1);
+                } else {
+                    particle.draw();
+                }
+            });
+            requestAnimationFrame(animateGlowParticles);
+        }
+
+        // Mode Toggle Logic
+        const body = document.body;
+        const cyberToggle = document.getElementById('cyber-toggle');
+        const nightToggle = document.getElementById('night-toggle');
+
+        function setCyberMode() {
+            body.classList.remove('night-mode');
+            starsCanvas.style.display = 'none';
+            glowCanvas.style.display = 'none';
+            cyberCanvas.style.display = 'block';
+            cyberTechCanvas.style.display = 'block';
+            if (!cyberCanvas.classList.contains('active')) {
+                drawCyberRain();
+                cyberCanvas.classList.add('active');
+            }
+            if (!cyberTechCanvas.classList.contains('active')) {
+                animateGlitch();
+                cyberTechCanvas.classList.add('active');
+            }
+            cyberToggle.classList.add('cyber-button');
+            nightToggle.classList.remove('night-button');
+            cyberToggle.disabled = true;
+            nightToggle.disabled = false;
+        }
+
+        function setNightMode() {
+            body.classList.add('night-mode');
+            cyberCanvas.style.display = 'none';
+            cyberTechCanvas.style.display = 'none';
+            starsCanvas.style.display = 'block';
+            glowCanvas.style.display = 'block';
+            if (!starsCanvas.classList.contains('active')) {
+                animateStars();
+                starsCanvas.classList.add('active');
+            }
+            if (!glowCanvas.classList.contains('active')) {
+                animateGlowParticles();
+                setInterval(spawnGlowParticle, 200); // Spawn a new particle every 200ms
+                glowCanvas.classList.add('active');
+            }
+            cyberToggle.classList.remove('cyber-button');
+            nightToggle.classList.add('night-button');
+            cyberToggle.disabled = false;
+            nightToggle.disabled = true;
+        }
+
+        cyberToggle.addEventListener('click', setCyberMode);
+        nightToggle.addEventListener('click', setNightMode);
+
+        // Initialize Night Mode as Default
+        setNightMode();
+
+        // Handle Window Resize
+        window.addEventListener('resize', () => {
+            cyberCanvas.width = window.innerWidth;
+            cyberCanvas.height = window.innerHeight;
+            starsCanvas.width = window.innerWidth;
+            starsCanvas.height = window.innerHeight;
+            glowCanvas.width = window.innerWidth;
+            glowCanvas.height = window.innerHeight;
+            cyberTechCanvas.width = window.innerWidth;
+            cyberTechCanvas.height = document.querySelector('.technologies').offsetHeight;
+
+            // Recalculate columns for cyber rain
+            const newColumns = cyberCanvas.width / fontSize;
+            drops.length = 0;
+            for (let x = 0; x < newColumns; x++) {
+                drops[x] = 1;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Campus Connect</title>
+    <style>
+        /* General Body Styles */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffd60a, #ff9505); /* Sunny mode theme */
+            color: #333;
+            transition: background 0.5s ease, color 0.5s ease;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        body.night-mode {
+            background: linear-gradient(135deg, #0a0e1a, #1e2a44); /* Night mode theme (stormy) */
+            color: #e2e8f0;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        body.night-mode .logo {
+            color: #e2e8f0;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: white;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff9505;
+        }
+
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-button {
+            display: flex;
+            align-items: center;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sunny-button {
+            background: linear-gradient(45deg, #ffd60a, #ff9505);
+            color: white;
+            box-shadow: 0 0 10px rgba(255, 149, 5, 0.5);
+        }
+
+        .sunny-button:hover {
+            background: linear-gradient(45deg, #ffe066, #ffaa33);
+            box-shadow: 0 0 15px rgba(255, 149, 5, 0.7);
+        }
+
+        .night-button {
+            background: linear-gradient(45deg, #1e2a44, #3b5998);
+            color: #e2e8f0;
+            box-shadow: 0 0 10px rgba(59, 89, 152, 0.5);
+        }
+
+        .night-button:hover {
+            background: linear-gradient(45deg, #2a3b66, #4a6bb8);
+            box-shadow: 0 0 15px rgba(59, 89, 152, 0.7);
+        }
+
+        .toggle-button .icon {
+            margin-right: 6px;
+        }
+
+        .toggle-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Login Container */
+        .login-container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 149, 5, 0.3);
+            text-align: center;
+            max-width: 400px;
+            margin: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        body.night-mode .login-container {
+            background: linear-gradient(135deg, rgba(45, 55, 72, 0.9), rgba(30, 40, 56, 0.9));
+            box-shadow: 0 0 20px rgba(59, 89, 152, 0.3);
+        }
+
+        .login-container h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ff9505;
+        }
+
+        body.night-mode .login-container h2 {
+            color: #e2e8f0;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .login-form input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        body.night-mode .login-form input {
+            background: #2d3748;
+            color: #e2e8f0;
+            border-color: #4a5568;
+        }
+
+        .login-form input:focus {
+            border-color: #ff9505;
+        }
+
+        .login-form button {
+            padding: 10px;
+            background: linear-gradient(45deg, #ff9505, #e68600);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 149, 5, 0.5);
+        }
+
+        .login-form button:hover {
+            background: linear-gradient(45deg, #e68600, #d67a00);
+            box-shadow: 0 0 15px rgba(255, 149, 5, 0.7);
+        }
+
+        .error-message {
+            color: #ff4d4d;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: none;
+        }
+
+        body.night-mode .error-message {
+            color: #ff6666;
+        }
+
+        .back-link {
+            position: absolute;
+            top: 80px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #ff9505;
+        }
+
+        body.night-mode .back-link {
+            color: #e2e8f0;
+        }
+
+        /* Rain Canvas for Night Mode */
+        #rain-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            display: none;
+        }
+
+        /* Thunder Flash Overlay */
+        #thunder-flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0);
+            pointer-events: none;
+            z-index: 0;
+            transition: background 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="rain-canvas"></canvas>
+    <div id="thunder-flash"></div>
+
+    <!-- Header Section -->
+    <div class="header">
+        <div class="logo">Campus Connect</div>
+        <div class="nav-container">
+            <nav class="nav-links">
+                <a href="index3.html">Home</a>
+                <a href="/about.html">About Us</a>
+                <a href="/contactus.html">Contact</a>
+                <a href="/dashboard.html">Dashboard</a>
+            </nav>
+            <div class="mode-toggle">
+                <button id="sunny-toggle" class="toggle-button sunny-button">
+                    <span class="icon">☀️</span> Sunny
+                </button>
+                <button id="night-toggle" class="toggle-button night-button">
+                    <span class="icon">🌙</span> Night
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back Link -->
+    <a href="index3.html" class="back-link">Go Back to Home</a>
+
+    <!-- Login Form -->
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="login-form" class="login-form">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <p id="error-message" class="error-message">Invalid username or password</p>
+    </div>
+
+    <script>
+        // Rain animation for Night mode
+        const rainCanvas = document.getElementById('rain-canvas');
+        const rainCtx = rainCanvas.getContext('2d');
+        rainCanvas.width = window.innerWidth;
+        rainCanvas.height = window.innerHeight;
+
+        class Raindrop {
+            constructor() {
+                this.x = Math.random() * rainCanvas.width;
+                this.y = -10;
+                this.length = Math.random() * 20 + 10;
+                this.speed = Math.random() * 5 + 5;
+                this.opacity = Math.random() * 0.5 + 0.3;
+            }
+
+            draw() {
+                rainCtx.beginPath();
+                rainCtx.moveTo(this.x, this.y);
+                rainCtx.lineTo(this.x, this.y + this.length);
+                rainCtx.strokeStyle = `rgba(174, 194, 224, ${this.opacity})`;
+                rainCtx.lineWidth = 1;
+                rainCtx.stroke();
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > rainCanvas.height) {
+                    this.y = -10;
+                    this.x = Math.random() * rainCanvas.width;
+                    this.opacity = Math.random() * 0.5 + 0.3;
+                }
+            }
+        }
+
+        const raindrops = [];
+        for (let i = 0; i < 200; i++) {
+            raindrops.push(new Raindrop());
+        }
+
+        // Thunder flash effect
+        const thunderFlash = document.getElementById('thunder-flash');
+        function triggerThunder() {
+            thunderFlash.style.background = 'rgba(255, 255, 255, 0.8)';
+            setTimeout(() => {
+                thunderFlash.style.background = 'rgba(255, 255, 255, 0)';
+            }, 100);
+            const nextThunder = Math.random() * 10000 + 5000;
+            setTimeout(triggerThunder, nextThunder);
+        }
+
+        function animateRain() {
+            rainCtx.clearRect(0, 0, rainCanvas.width, rainCanvas.height);
+            raindrops.forEach(drop => {
+                drop.draw();
+                drop.update();
+            });
+            requestAnimationFrame(animateRain);
+        }
+
+        // Mode toggle logic
+        const body = document.body;
+        const sunnyToggle = document.getElementById('sunny-toggle');
+        const nightToggle = document.getElementById('night-toggle');
+
+        function setSunnyMode() {
+            body.classList.remove('night-mode');
+            rainCanvas.style.display = 'none';
+            thunderFlash.style.display = 'none';
+            sunnyToggle.disabled = true;
+            nightToggle.disabled = false;
+        }
+
+        function setNightMode() {
+            body.classList.add('night-mode');
+            rainCanvas.style.display = 'block';
+            thunderFlash.style.display = 'block';
+            animateRain();
+            triggerThunder();
+            sunnyToggle.disabled = false;
+            nightToggle.disabled = true;
+        }
+
+        sunnyToggle.addEventListener('click', setSunnyMode);
+        nightToggle.addEventListener('click', setNightMode);
+
+        // Initialize Sunny mode
+        setSunnyMode();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            rainCanvas.width = window.innerWidth;
+            rainCanvas.height = window.innerHeight;
+        });
+
+        // Login form submission
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            // Get existing users from localStorage
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+
+            // Find user with matching username and password
+            const user = users.find(user => 
+                user.username.toLowerCase() === username.toLowerCase() && 
+                user.password === password
+            );
+
+            if (!user) {
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            // Hide error message if login is successful
+            errorMessage.style.display = 'none';
+
+            // Set the user as the logged-in user
+            localStorage.setItem('loggedInUser', JSON.stringify(user));
+
+            // Redirect to dashboard
+            alert('Login successful! Redirecting to Dashboard...');
+            window.location.href = '/dashboard.html';
+        });
+    </script>
+</body>
+</html>

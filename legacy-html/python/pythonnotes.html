@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Notes & Snippets - Campus Connect</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a, #1a1a3a);
+            color: #e0e0ff;
+            overflow-x: hidden;
+            position: relative;
+        }
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle, #1a1a3a, #0a0a1a);
+        }
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: #FFD43B;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: particleMove 10s linear infinite;
+        }
+        @keyframes particleMove {
+            0% { transform: translate(0, 0); opacity: 0.5; }
+            50% { opacity: 0.8; }
+            100% { transform: translate(100vw, 100vh); opacity: 0; }
+        }
+        .header {
+            background: linear-gradient(90deg, #306998, #FFD43B, #306998);
+            background-size: 200%;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            animation: gradientShift 5s infinite linear;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0%; }
+            100% { background-position: 200%; }
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            text-shadow: 0 0 10px #FFD43B;
+        }
+        .content {
+            padding: 20px;
+            max-width: 900px;
+            margin: 20px auto;
+            background: rgba(20, 20, 40, 0.9);
+            border-radius: 15px;
+            border: 1px solid #FFD43B;
+            box-shadow: 0 0 20px rgba(255, 212, 59, 0.3);
+            animation: reveal 1s ease-in-out;
+        }
+        @keyframes reveal {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .topic {
+            margin-bottom: 30px;
+            padding: 15px;
+            border-left: 4px solid #FFD43B;
+            background: rgba(255, 212, 59, 0.1);
+            border-radius: 5px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .topic:hover {
+            transform: translateX(10px);
+            box-shadow: 0 0 15px rgba(255, 212, 59, 0.5);
+        }
+        .topic h2 {
+            color: #FFD43B;
+            margin-top: 0;
+            font-size: 1.5rem;
+            text-shadow: 0 0 5px #306998;
+        }
+        .topic p {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        .code-snippet {
+            background: #1a1a3a;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #e0e0ff;
+            white-space: pre-wrap;
+            border: 1px solid #306998;
+            position: relative;
+            overflow-x: auto;
+        }
+        .code-snippet::before {
+            content: 'Code Example';
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            background: #FFD43B;
+            color: #0a0a1a;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="background" id="background"></div>
+    <div class="header">
+        <h1>Python Notes & Code Snippets 🐍</h1>
+    </div>
+    <div class="content">
+        <div class="topic">
+            <h2>1. Variables and Data Types</h2>
+            <p>Python supports dynamic typing, meaning you don’t need to declare the type of a variable. Common data types include integers, floats, strings, booleans, lists, tuples, dictionaries, and sets.</p>
+            <div class="code-snippet">
+# Declaring variables
+name = "Alice"  # String
+age = 25        # Integer
+height = 5.6    # Float
+is_student = True  # Boolean
+my_list = [1, 2, 3]  # List
+my_tuple = (4, 5)    # Tuple
+my_dict = {"name": "Alice", "age": 25}  # Dictionary
+my_set = {1, 2, 3}  # Set
+
+# Printing types
+print(type(name))  # <class 'str'>
+print(type(age))   # <class 'int'>
+            </div>
+        </div>
+
+        <div class="topic">
+            <h2>2. Control Structures</h2>
+            <p>Control structures like if-else, for loops, and while loops help manage the flow of your program.</p>
+            <div class="code-snippet">
+# If-else statement
+score = 85
+if score >= 90:
+    print("Grade: A")
+elif score >= 80:
+    print("Grade: B")
+else:
+    print("Grade: C")
+
+# For loop
+for i in range(5):
+    print(f"Number: {i}")
+
+# While loop
+count = 0
+while count < 3:
+    print(f"Count: {count}")
+    count += 1
+            </div>
+        </div>
+
+        <div class="topic">
+            <h2>3. Functions</h2>
+            <p>Functions allow you to modularize your code. You can define functions with parameters and return values.</p>
+            <div class="code-snippet">
+# Defining a function
+def greet(name):
+    return f"Hello, {name}!"
+
+# Function with default parameter
+def add(a, b=10):
+    return a + b
+
+# Calling functions
+print(greet("Bob"))  # Hello, Bob!
+print(add(5))        # 15
+print(add(5, 20))    # 25
+            </div>
+        </div>
+
+        <div class="topic">
+            <h2>4. Lists and List Comprehension</h2>
+            <p>Lists are mutable sequences. List comprehensions provide a concise way to create lists.</p>
+            <div class="code-snippet">
+# Creating a list
+numbers = [1, 2, 3, 4, 5]
+
+# List operations
+numbers.append(6)  # Add to end
+numbers.pop()      # Remove last element
+print(numbers)     # [1, 2, 3, 4, 5]
+
+# List comprehension
+squares = [x**2 for x in range(5)]
+print(squares)     # [0, 1, 4, 9, 16]
+
+# Filter with list comprehension
+evens = [x for x in range(10) if x % 2 == 0]
+print(evens)       # [0, 2, 4, 6, 8]
+            </div>
+        </div>
+
+        <div class="topic">
+            <h2>5. Dictionaries</h2>
+            <p>Dictionaries store key-value pairs and are useful for mapping data.</p>
+            <div class="code-snippet">
+# Creating a dictionary
+student = {"name": "Charlie", "age": 20, "grades": [85, 90, 88]}
+
+# Accessing values
+print(student["name"])  # Charlie
+
+# Adding/Updating keys
+student["major"] = "Computer Science"
+print(student)  # {'name': 'Charlie', 'age': 20, 'grades': [85, 90, 88], 'major': 'Computer Science'}
+
+# Looping through dictionary
+for key, value in student.items():
+    print(f"{key}: {value}")
+            </div>
+        </div>
+
+        <div class="topic">
+            <h2>6. File Handling</h2>
+            <p>Python makes it easy to read from and write to files using built-in functions.</p>
+            <div class="code-snippet">
+# Writing to a file
+with open("example.txt", "w") as file:
+    file.write("Hello, Python!\n")
+    file.write("This is a test.")
+
+# Reading from a file
+with open("example.txt", "r") as file:
+    content = file.read()
+    print(content)  # Hello, Python!
+                    # This is a test.
+
+# Appending to a file
+with open("example.txt", "a") as file:
+    file.write("\nAppending this line.")
+            </div>
+        </div>
+
+        <div class="topic">
+            <h2>7. Object-Oriented Programming (OOP)</h2>
+            <p>Python supports OOP with classes and objects for structured programming.</p>
+            <div class="code-snippet">
+# Defining a class
+class Dog:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    
+    def bark(self):
+        return f"{self.name} says Woof!"
+
+# Creating an object
+my_dog = Dog("Buddy", 3)
+print(my_dog.name)      # Buddy
+print(my_dog.bark())    # Buddy says Woof!
+
+# Inheritance
+class Puppy(Dog):
+    def play(self):
+        return f"{self.name} is playing!"
+
+my_puppy = Puppy("Max", 1)
+print(my_puppy.bark())  # Max says Woof!
+print(my_puppy.play())  # Max is playing!
+            </div>
+        </div>
+
+        <div class="topic">
+            <h2>8. Exception Handling</h2>
+            <p>Exception handling ensures your program doesn’t crash due to errors.</p>
+            <div class="code-snippet">
+# Try-except block
+try:
+    x = 10 / 0
+except ZeroDivisionError:
+    print("Cannot divide by zero!")
+finally:
+    print("This runs no matter what.")
+
+# Multiple exceptions
+try:
+    num = int(input("Enter a number: "))
+    print(10 / num)
+except ValueError:
+    print("Please enter a valid number!")
+except ZeroDivisionError:
+    print("Cannot divide by zero!")
+            </div>
+        </div>
+
+        <div class="topic">
+            <h2>9. Working with Modules</h2>
+            <p>Modules allow you to organize code and use built-in or third-party libraries.</p>
+            <div class="code-snippet">
+# Importing a module
+import math
+print(math.sqrt(16))  # 4.0
+print(math.pi)        # 3.141592653589793
+
+# Importing specific functions
+from random import randint
+print(randint(1, 10))  # Random number between 1 and 10
+
+# Creating and using a custom module
+# Save this as my_module.py:
+# def say_hello():
+#     return "Hello from my_module!"
+#
+# Then import it:
+# import my_module
+# print(my_module.say_hello())
+            </div>
+        </div>
+
+        <div class="topic">
+            <h2>10. Lambda Functions</h2>
+            <p>Lambda functions are small, anonymous functions defined with the lambda keyword.</p>
+            <div class="code-snippet">
+# Basic lambda function
+add = lambda x, y: x + y
+print(add(3, 5))  # 8
+
+# Using lambda with map
+numbers = [1, 2, 3, 4]
+squared = list(map(lambda x: x**2, numbers))
+print(squared)  # [1, 4, 9, 16]
+
+# Using lambda with filter
+evens = list(filter(lambda x: x % 2 == 0, numbers))
+print(evens)    # [2, 4]
+            </div>
+        </div>
+    </div>
+    <script>
+        const background = document.getElementById('background');
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = Math.random() * 100 + 'vh';
+            particle.style.animationDuration = Math.random() * 5 + 5 + 's';
+            background.appendChild(particle);
+            setTimeout(() => particle.remove(), 10000);
+        }
+
+        setInterval(createParticle, 200);
+    </script>
+</body>
+</html>

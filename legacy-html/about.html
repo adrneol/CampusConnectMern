@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Campus Connect</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b); /* Sunny mode default */
+            color: #1a202c;
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+        .night-mode {
+            background: linear-gradient(135deg, #1a202c, #2d3748);
+            color: #e2e8f0;
+        }
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+        }
+        .highlight {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+        #rain-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            display: none;
+            background: rgba(0, 0, 0, 0.8);
+        }
+        #stars-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            display: none;
+        }
+        .home-link:hover {
+            color: #ffcc00;
+            transition: color 0.3s ease;
+        }
+        .toggle-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .sunny-button {
+            background: linear-gradient(45deg, #ffcc00, #ff6f00);
+            color: #fff;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.5);
+        }
+        .sunny-button:hover {
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            box-shadow: 0 0 15px rgba(255, 204, 0, 0.7);
+        }
+        .night-button {
+            background: linear-gradient(45deg, #4a5568, #2d3748);
+            color: #e2e8f0;
+            box-shadow: 0 0 10px rgba(66, 153, 225, 0.5);
+        }
+        .night-button:hover {
+            background: linear-gradient(45deg, #5a6b8b, #3b4a6b);
+            box-shadow: 0 0 15px rgba(66, 153, 225, 0.7);
+        }
+        .icon {
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="rain-canvas"></canvas>
+    <canvas id="stars-canvas"></canvas>
+    <div class="container fade-in">
+        <div class="flex justify-center space-x-4 mb-6">
+            <button id="sunny-toggle" class="toggle-button sunny-button">
+                <span class="icon">☀️</span> Sunny Mode
+            </button>
+            <button id="night-toggle" class="toggle-button night-button">
+                <span class="icon">🌙</span> Night Mode
+            </button>
+        </div>
+        <h1 class="text-5xl font-bold mb-6">About Campus Connect</h1>
+        <p class="text-lg mb-4">
+            Welcome to <span class="highlight">Campus Connect</span>, your go-to platform for concise, high-quality technological notes and code snippets!
+        </p>
+        <p class="text-lg mb-4">
+            I'm <span class="highlight">Adrneol General</span>, an independent developer passionate about making learning accessible and fun. My mission is to provide clear, well-structured notes and practical code examples to help students and developers master key programming languages and technologies.
+        </p>
+        <p class="text-lg mb-4">
+            At Campus Connect, you'll find resources for:
+        </p>
+        <ul class="text-lg mb-6 list-disc list-inside">
+            <li><span class="highlight">Python</span>: From basics to advanced scripting</li>
+            <li><span class="highlight">C</span>: Foundational programming concepts</li>
+            <li><span class="highlight">C++</span>: Object-oriented and performance-driven coding</li>
+            <li><span class="highlight">HTML</span>: Building the structure of the web</li>
+            <li><span class="highlight">CSS</span>: Styling the web with creativity</li>
+        </ul>
+        <p class="text-lg mb-6">
+            Whether you're a beginner or leveling up your skills, Campus Connect is here to empower you with knowledge and code that clicks!
+        </p>
+        <a href="index3.html" id="home-link" class="home-link text-xl underline">Back to Home</a>
+    </div>
+
+    <script>
+        // Rain animation logic with glowing colors
+        const rainCanvas = document.getElementById('rain-canvas');
+        const rainCtx = rainCanvas.getContext('2d');
+        rainCanvas.width = window.innerWidth;
+        rainCanvas.height = window.innerHeight;
+
+        const codeDrops = [
+            'print("Hello, World!")', // Python
+            'int main() { return 0; }', // C
+            'cout << "Hello";', // C++
+            '<div>Content</div>', // HTML
+            'body { color: white; }' // CSS
+        ];
+
+        const glowColors = ['#00ffff', '#ff00ff', '#ffff00', '#00ff00']; // Cyan, Magenta, Yellow, Green
+
+        class Drop {
+            constructor() {
+                this.x = Math.random() * rainCanvas.width;
+                this.y = -20;
+                this.speed = Math.random() * 5 + 2;
+                this.text = codeDrops[Math.floor(Math.random() * codeDrops.length)];
+                this.color = glowColors[Math.floor(Math.random() * glowColors.length)];
+            }
+
+            draw() {
+                rainCtx.font = '16px monospace';
+                rainCtx.fillStyle = this.color;
+                rainCtx.shadowColor = this.color;
+                rainCtx.shadowBlur = 10;
+                rainCtx.fillText(this.text, this.x, this.y);
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > rainCanvas.height) {
+                    this.y = -20;
+                    this.x = Math.random() * rainCanvas.width;
+                    this.text = codeDrops[Math.floor(Math.random() * codeDrops.length)];
+                    this.color = glowColors[Math.floor(Math.random() * glowColors.length)];
+                }
+            }
+        }
+
+        const drops = [];
+        for (let i = 0; i < 50; i++) {
+            drops.push(new Drop());
+        }
+
+        function animateRain() {
+            rainCtx.clearRect(0, 0, rainCanvas.width, rainCanvas.height);
+            drops.forEach(drop => {
+                drop.draw();
+                drop.update();
+            });
+            requestAnimationFrame(animateRain);
+        }
+
+        // Stars animation for night mode
+        const starsCanvas = document.getElementById('stars-canvas');
+        const starsCtx = starsCanvas.getContext('2d');
+        starsCanvas.width = window.innerWidth;
+        starsCanvas.height = window.innerHeight;
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * starsCanvas.width;
+                this.y = -10;
+                this.radius = Math.random() * 2 + 1;
+                this.speed = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.5 + 0.5;
+            }
+
+            draw() {
+                starsCtx.beginPath();
+                starsCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                starsCtx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                starsCtx.shadowColor = '#ffffff';
+                starsCtx.shadowBlur = 5;
+                starsCtx.fill();
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > starsCanvas.height) {
+                    this.y = -10;
+                    this.x = Math.random() * starsCanvas.width;
+                    this.opacity = Math.random() * 0.5 + 0.5;
+                }
+            }
+        }
+
+        const stars = [];
+        for (let i = 0; i < 100; i++) {
+            stars.push(new Star());
+        }
+
+        function animateStars() {
+            starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+            stars.forEach(star => {
+                star.draw();
+                star.update();
+            });
+            requestAnimationFrame(animateStars);
+        }
+
+        // Mode toggle logic
+        const body = document.body;
+        const sunnyToggle = document.getElementById('sunny-toggle');
+        const nightToggle = document.getElementById('night-toggle');
+
+        function setSunnyMode() {
+            body.classList.remove('night-mode');
+            starsCanvas.style.display = 'none';
+            sunnyToggle.classList.add('sunny-button');
+            nightToggle.classList.remove('night-button');
+            sunnyToggle.disabled = true;
+            nightToggle.disabled = false;
+        }
+
+        function setNightMode() {
+            body.classList.add('night-mode');
+            starsCanvas.style.display = 'block';
+            animateStars();
+            sunnyToggle.classList.remove('sunny-button');
+            nightToggle.classList.add('night-button');
+            sunnyToggle.disabled = false;
+            nightToggle.disabled = true;
+        }
+
+        sunnyToggle.addEventListener('click', setSunnyMode);
+        nightToggle.addEventListener('click', setNightMode);
+
+        // Initialize sunny mode
+        setSunnyMode();
+
+        // Trigger rain animation on Home link click
+        document.getElementById('home-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            rainCanvas.style.display = 'block';
+            animateRain();
+            setTimeout(() => {
+                window.location.href = 'index3.html';
+            }, 3000); // Redirect after 3 seconds
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            rainCanvas.width = window.innerWidth;
+            rainCanvas.height = window.innerHeight;
+            starsCanvas.width = window.innerWidth;
+            starsCanvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Campus Connect</title>
+    <style>
+        /* General Body Styles */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffd60a, #ff9505); /* New Sunny mode theme */
+            color: #333;
+            transition: background 0.5s ease, color 0.5s ease;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden; /* Prevent scrollbars during animations */
+        }
+
+        body.night-mode {
+            background: linear-gradient(135deg, #0a0e1a, #1e2a44); /* New Night mode theme (stormy) */
+            color: #e2e8f0;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        body.night-mode .logo {
+            color: #e2e8f0;
+        }
+
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: white;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff9505; /* Matches new Sunny theme */
+        }
+
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-button {
+            display: flex;
+            align-items: center;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .sunny-button {
+            background: linear-gradient(45deg, #ffd60a, #ff9505); /* New Sunny button theme */
+            color: white;
+            box-shadow: 0 0 10px rgba(255, 149, 5, 0.5);
+        }
+
+        .sunny-button:hover {
+            background: linear-gradient(45deg, #ffe066, #ffaa33);
+            box-shadow: 0 0 15px rgba(255, 149, 5, 0.7);
+        }
+
+        .night-button {
+            background: linear-gradient(45deg, #1e2a44, #3b5998); /* New Night button theme */
+            color: #e2e8f0;
+            box-shadow: 0 0 10px rgba(59, 89, 152, 0.5);
+        }
+
+        .night-button:hover {
+            background: linear-gradient(45deg, #2a3b66, #4a6bb8);
+            box-shadow: 0 0 15px rgba(59, 89, 152, 0.7);
+        }
+
+        .toggle-button .icon {
+            margin-right: 6px;
+        }
+
+        .toggle-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Dashboard Container */
+        .dashboard {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 149, 5, 0.3); /* Matches new Sunny theme */
+            text-align: center;
+            max-width: 500px;
+            margin: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        body.night-mode .dashboard {
+            background: linear-gradient(135deg, rgba(45, 55, 72, 0.9), rgba(30, 40, 56, 0.9));
+            box-shadow: 0 0 20px rgba(59, 89, 152, 0.3); /* Matches new Night theme */
+        }
+
+        .dashboard h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #ff9505; /* Matches new Sunny theme */
+        }
+
+        body.night-mode .dashboard h2 {
+            color: #e2e8f0;
+        }
+
+        .dashboard p {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        body.night-mode .dashboard p {
+            color: #e2e8f0;
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #ff4d4d, #e60000);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(45deg, #e60000, #cc0000);
+            box-shadow: 0 0 15px rgba(255, 77, 77, 0.7);
+        }
+
+        .back-link {
+            position: absolute;
+            top: 80px; /* Moved down below the header */
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #ff9505; /* Matches new Sunny theme */
+        }
+
+        body.night-mode .back-link {
+            color: #e2e8f0;
+        }
+
+        /* Rain Canvas for Night Mode */
+        #rain-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            display: none;
+        }
+
+        /* Thunder Flash Overlay */
+        #thunder-flash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0);
+            pointer-events: none;
+            z-index: 0;
+            transition: background 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="rain-canvas"></canvas>
+    <div id="thunder-flash"></div>
+
+    <!-- Header Section -->
+    <div class="header">
+        <div class="logo">Campus Connect</div>
+        <div class="nav-container">
+            <nav class="nav-links">
+                <a href="index3.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="contactus.html">Contact</a>
+                <!-- <a href="dashboard.html">Dashboard</a> -->
+            </nav>
+            <div class="mode-toggle">
+                <button id="sunny-toggle" class="toggle-button sunny-button">
+                    <span class="icon">☀️</span> Sunny
+                </button>
+                <button id="night-toggle" class="toggle-button night-button">
+                    <span class="icon">🌙</span> Night
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <a href="index3.html" class="back-link">Go Back to Home</a>
+    <div class="dashboard">
+        <h2>Dashboard</h2>
+        <p id="welcomeMessage">Welcome, User!</p>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+    </div>
+
+    <script>
+        // Rain animation for Night mode
+        const rainCanvas = document.getElementById('rain-canvas');
+        const rainCtx = rainCanvas.getContext('2d');
+        rainCanvas.width = window.innerWidth;
+        rainCanvas.height = window.innerHeight;
+
+        class Raindrop {
+            constructor() {
+                this.x = Math.random() * rainCanvas.width;
+                this.y = -10;
+                this.length = Math.random() * 20 + 10;
+                this.speed = Math.random() * 5 + 5;
+                this.opacity = Math.random() * 0.5 + 0.3;
+            }
+
+            draw() {
+                rainCtx.beginPath();
+                rainCtx.moveTo(this.x, this.y);
+                rainCtx.lineTo(this.x, this.y + this.length);
+                rainCtx.strokeStyle = `rgba(174, 194, 224, ${this.opacity})`;
+                rainCtx.lineWidth = 1;
+                rainCtx.stroke();
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > rainCanvas.height) {
+                    this.y = -10;
+                    this.x = Math.random() * rainCanvas.width;
+                    this.opacity = Math.random() * 0.5 + 0.3;
+                }
+            }
+        }
+
+        const raindrops = [];
+        for (let i = 0; i < 200; i++) {
+            raindrops.push(new Raindrop());
+        }
+
+        // Thunder flash effect
+        const thunderFlash = document.getElementById('thunder-flash');
+        function triggerThunder() {
+            // Simulate thunder flash
+            thunderFlash.style.background = 'rgba(255, 255, 255, 0.8)';
+            setTimeout(() => {
+                thunderFlash.style.background = 'rgba(255, 255, 255, 0)';
+            }, 100);
+            // Random interval for next thunder (between 5 and 15 seconds)
+            const nextThunder = Math.random() * 10000 + 5000;
+            setTimeout(triggerThunder, nextThunder);
+        }
+
+        function animateRain() {
+            rainCtx.clearRect(0, 0, rainCanvas.width, rainCanvas.height);
+            raindrops.forEach(drop => {
+                drop.draw();
+                drop.update();
+            });
+            requestAnimationFrame(animateRain);
+        }
+
+        // Mode toggle logic
+        const body = document.body;
+        const sunnyToggle = document.getElementById('sunny-toggle');
+        const nightToggle = document.getElementById('night-toggle');
+
+        function setSunnyMode() {
+            body.classList.remove('night-mode');
+            rainCanvas.style.display = 'none';
+            thunderFlash.style.display = 'none';
+            sunnyToggle.disabled = true;
+            nightToggle.disabled = false;
+        }
+
+        function setNightMode() {
+            body.classList.add('night-mode');
+            rainCanvas.style.display = 'block';
+            thunderFlash.style.display = 'block';
+            animateRain();
+            triggerThunder();
+            sunnyToggle.disabled = false;
+            nightToggle.disabled = true;
+        }
+
+        sunnyToggle.addEventListener('click', setSunnyMode);
+        nightToggle.addEventListener('click', setNightMode);
+
+        // Initialize Sunny mode
+        setSunnyMode();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            rainCanvas.width = window.innerWidth;
+            rainCanvas.height = window.innerHeight;
+        });
+
+        // Get logged-in user from localStorage
+        const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+
+        // If not logged in, redirect to login page
+        if (!loggedInUser) {
+            alert('You are not logged in!');
+            window.location.href = 'index3.html';
+        } else {
+            // Show welcome message
+            document.getElementById('welcomeMessage').textContent = `Welcome, ${loggedInUser.username}!`;
+        }
+
+        // Logout button action
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('loggedInUser');
+            alert('You have been logged out.');
+            window.location.href = 'index3.html';
+        });
+    </script>
+</body>
+</html>

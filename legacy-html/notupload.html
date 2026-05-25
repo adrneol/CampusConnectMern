@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Placeholder - Campus Connect</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #0a0a1a;
+            color: #e0e0ff;
+            overflow-x: hidden;
+            position: relative;
+            perspective: 1000px;
+        }
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: radial-gradient(circle, #1a1a3a, #0a0a1a);
+        }
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: #00ff00; /* Neon green for particles */
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: particleMove 15s linear infinite;
+        }
+        @keyframes particleMove {
+            0% { transform: translate(0, 0); opacity: 0.5; }
+            50% { opacity: 0.8; }
+            100% { transform: translate(100vw, 100vh); opacity: 0; }
+        }
+        .message {
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 36px;
+            color: #e0e0ff;
+            text-shadow: 0 0 20px #00ff00;
+            animation: reveal 2s ease-in-out;
+        }
+        @keyframes reveal {
+            0% { opacity: 0; transform: translateX(-50%) translateY(50px); }
+            100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        .scene {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 300px;
+            z-index: 1;
+        }
+        .guy {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 150px;
+        }
+        .hoodie {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 100px;
+            background-color: #1c2526; /* Dark gray for hoodie */
+            border-radius: 10px 10px 0 0;
+        }
+        .head {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: #333333; /* Darker gray for head */
+            border-radius: 50%;
+        }
+        .arms {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .arm {
+            width: 40px;
+            height: 20px;
+            background-color: #1c2526;
+            border-radius: 5px;
+            animation: typing 1s infinite alternate;
+        }
+        .arm.left {
+            transform-origin: right center;
+        }
+        .arm.right {
+            transform-origin: left center;
+        }
+        @keyframes typing {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(10deg); }
+        }
+        .desk {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 20px;
+            background-color: #333333;
+            border-radius: 5px;
+        }
+        .screen {
+            position: absolute;
+            width: 80px;
+            height: 60px;
+            background-color: rgba(0, 255, 0, 0.1);
+            border: 2px solid #00ff00;
+            border-radius: 5px;
+            animation: rotate3D 8s infinite linear, glow 2s infinite ease-in-out;
+            overflow: hidden;
+        }
+        .screen::before {
+            content: 'code...';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #00ff00;
+            font-family: monospace;
+            font-size: 12px;
+            opacity: 0.8;
+            animation: flicker 3s infinite;
+        }
+        @keyframes rotate3D {
+            0% { transform: translate(-50%, -50%) rotateY(0deg); }
+            100% { transform: translate(-50%, -50%) rotateY(360deg); }
+        }
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px #00ff00; }
+            50% { box-shadow: 0 0 20px #00ff00; }
+            100% { box-shadow: 0 0 10px #00ff00; }
+        }
+        @keyframes flicker {
+            0% { opacity: 0.8; }
+            50% { opacity: 0.4; }
+            100% { opacity: 0.8; }
+        }
+        .screen1 { top: 20%; left: 20%; }
+        .screen2 { top: 10%; left: 80%; }
+        .screen3 { top: 60%; left: 10%; }
+    </style>
+</head>
+<body>
+    <a href="index3.html">Home</a>
+    <div class="background" id="background"></div>
+    <div class="message">Content yet to be uploaded</div>
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+    <div class="scene">
+        <div class="guy">
+            <div class="hoodie"></div>
+            <div class="head"></div>
+            <div class="arms">
+                <div class="arm left"></div>
+                <div class="arm right"></div>
+            </div>
+            <div class="desk"></div>
+        </div>
+        <div class="screen screen1"></div>
+        <div class="screen screen2"></div>
+        <div class="screen screen3"></div>
+    </div>
+    <script>
+        const background = document.getElementById('background');
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = Math.random() * 100 + 'vh';
+            particle.style.animationDuration = Math.random() * 10 + 5 + 's';
+            background.appendChild(particle);
+            setTimeout(() => particle.remove(), 15000);
+        }
+
+        setInterval(createParticle, 200);
+    </script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML - Campus Connect</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #0a0a1a;
+            color: #e0e0ff;
+            overflow-x: hidden;
+            position: relative;
+            perspective: 1000px;
+        }
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: radial-gradient(circle, #1a1a3a, #0a0a1a);
+        }
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: #f06529; /* HTML lighter orange for particles */
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: particleMove 15s linear infinite;
+        }
+        @keyframes particleMove {
+            0% { transform: translate(0, 0); opacity: 0.5; }
+            50% { opacity: 0.8; }
+            100% { transform: translate(100vw, 100vh); opacity: 0; }
+        }
+        .html-tag {
+            position: absolute;
+            color: #f06529; /* HTML lighter orange */
+            font-family: monospace;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0.6;
+            animation: drift 10s linear infinite;
+        }
+        @keyframes drift {
+            0% { transform: translateX(-100vw); }
+            100% { transform: translateX(100vw); }
+        }
+        .html-logo {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateY(0deg);
+            font-size: 150px;
+            font-family: monospace;
+            color: #f06529; /* HTML lighter orange */
+            text-shadow: 0 0 30px #f06529, 0 0 60px #e34c26; /* HTML orange glow */
+            z-index: 0;
+            animation: rotate3D 10s infinite linear;
+        }
+        @keyframes rotate3D {
+            0% { transform: translate(-50%, -50%) rotateY(0deg); }
+            100% { transform: translate(-50%, -50%) rotateY(360deg); }
+        }
+        .header {
+            background: linear-gradient(90deg, #e34c26, #f06529, #e34c26); /* HTML orange gradient */
+            background-size: 200%;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            animation: gradientShift 5s infinite linear;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0%; }
+            100% { background-position: 200%; }
+        }
+        .header a {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            color: #e0e0ff;
+            text-decoration: none;
+            font-weight: bold;
+            text-shadow: 0 0 10px #e34c26;
+        }
+        .header a:hover {
+            color: #f06529;
+            text-shadow: 0 0 20px #f06529;
+        }
+        .content {
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            background: rgba(20, 20, 40, 0.8);
+            border-radius: 15px;
+            margin: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid #f06529;
+            animation: reveal 2s ease-in-out;
+        }
+        @keyframes reveal {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .chapter {
+            margin-bottom: 20px;
+        }
+        .chapter h2 {
+            color: #f06529; /* HTML lighter orange */
+            border-bottom: 2px solid #e34c26; /* HTML darker orange */
+            padding-bottom: 5px;
+            text-shadow: 0 0 10px #e34c26;
+        }
+        .topics {
+            margin-left: 20px;
+        }
+        .topics li {
+            margin: 10px 0;
+        }
+        .topics a {
+            color: #e0e0ff;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s, text-shadow 0.3s;
+        }
+        .topics a:hover {
+            transform: translateZ(10px) rotateX(10deg);
+            text-shadow: 0 0 15px #f06529;
+        }
+        .topics a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #f06529;
+            transition: width 0.3s;
+        }
+        .topics a:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="background" id="background"></div>
+    <div class="html-logo" id="htmlLogo">&lt;HTML&gt;</div>
+    <div class="header">
+        <a href="../index3.html">Home</a>
+        <h1>HTML Section</h1>
+    </div>
+    <div class="content">
+        <div class="chapter">
+            <h2>Chapter 1: Introduction to HTML</h2>
+            <ul class="topics">
+                <li><a href="../notupload.html">What is HTML?</a></li>
+                <li><a href="../notupload.html">HTML Document Structure</a></li>
+                <li><a href="../notupload.html">Basic HTML Tags</a></li>
+            </ul>
+        </div>
+        <div class="chapter">
+            <h2>Chapter 2: HTML Elements</h2>
+            <ul class="topics">
+                <li><a href="../notupload.html">Headings and Paragraphs</a></li>
+                <li><a href="../notupload.html">Lists and Tables</a></li>
+                <li><a href="../notupload.html">Images and Links</a></li>
+            </ul>
+        </div>
+        <div class="chapter">
+            <h2>Chapter 3: HTML Forms</h2>
+            <ul class="topics">
+                <li><a href="../notupload.html">Form Elements</a></li>
+                <li><a href="../notupload.html">Input Types</a></li>
+                <li><a href="../notupload.html">Form Validation</a></li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        const background = document.getElementById('background');
+
+        const htmlTags = ['<div>', '<p>', '<h1>', '<a>', '<img>', '<ul>', '<li>', '<span>'];
+        function createHtmlTag() {
+            const tag = document.createElement('div');
+            tag.className = 'html-tag';
+            tag.textContent = htmlTags[Math.floor(Math.random() * htmlTags.length)];
+            tag.style.top = Math.random() * 80 + 10 + 'vh';
+            tag.style.animationDuration = Math.random() * 5 + 5 + 's';
+            background.appendChild(tag);
+            setTimeout(() => tag.remove(), 10000);
+        }
+
+        setInterval(createHtmlTag, 500);
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = Math.random() * 100 + 'vh';
+            particle.style.animationDuration = Math.random() * 10 + 5 + 's';
+            background.appendChild(particle);
+            setTimeout(() => particle.remove(), 15000);
+        }
+
+        setInterval(createParticle, 200);
+    </script>
+</body>
+</html>

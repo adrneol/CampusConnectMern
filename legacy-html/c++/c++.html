@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ - Campus Connect</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #0a0a1a;
+            color: #e0e0ff;
+            overflow-x: hidden;
+            position: relative;
+            perspective: 1000px; /* For 3D effects */
+        }
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: radial-gradient(circle, #1a1a3a, #0a0a1a);
+        }
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: #bb86fc;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: particleMove 15s linear infinite;
+        }
+        @keyframes particleMove {
+            0% { transform: translate(0, 0); opacity: 0.5; }
+            50% { opacity: 0.8; }
+            100% { transform: translate(100vw, 100vh); opacity: 0; }
+        }
+        .cpp-logo {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateY(0deg);
+            font-size: 150px;
+            font-family: monospace;
+            color: #bb86fc;
+            text-shadow: 0 0 20px #bb86fc, 0 0 40px #03dac6;
+            z-index: 0;
+            animation: rotate3D 10s infinite linear, pulse 3s infinite ease-in-out;
+        }
+        @keyframes rotate3D {
+            0% { transform: translate(-50%, -50%) rotateY(0deg); }
+            100% { transform: translate(-50%, -50%) rotateY(360deg); }
+        }
+        @keyframes pulse {
+            0% { text-shadow: 0 0 20px #bb86fc, 0 0 40px #03dac6; }
+            50% { text-shadow: 0 0 30px #bb86fc, 0 0 60px #03dac6; }
+            100% { text-shadow: 0 0 20px #bb86fc, 0 0 40px #03dac6; }
+        }
+        .header {
+            background: linear-gradient(90deg, #bb86fc, #03dac6, #bb86fc);
+            background-size: 200%;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            animation: gradientShift 5s infinite linear;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0%; }
+            100% { background-position: 200%; }
+        }
+        .header a {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            color: #e0e0ff;
+            text-decoration: none;
+            font-weight: bold;
+            text-shadow: 0 0 10px #03dac6;
+        }
+        .header a:hover {
+            color: #bb86fc;
+            text-shadow: 0 0 20px #bb86fc;
+        }
+        .content {
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            background: rgba(20, 20, 40, 0.8);
+            border-radius: 15px;
+            margin: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid #bb86fc;
+            animation: reveal 2s ease-in-out;
+        }
+        @keyframes reveal {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .chapter {
+            margin-bottom: 20px;
+        }
+        .chapter h2 {
+            color: #03dac6;
+            border-bottom: 2px solid #bb86fc;
+            padding-bottom: 5px;
+            text-shadow: 0 0 10px #03dac6;
+        }
+        .topics {
+            margin-left: 20px;
+        }
+        .topics li {
+            margin: 10px 0;
+        }
+        .topics a {
+            color: #e0e0ff;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s, text-shadow 0.3s;
+        }
+        .topics a:hover {
+            transform: translateZ(10px) rotateX(10deg);
+            text-shadow: 0 0 15px #bb86fc;
+        }
+        .topics a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #bb86fc;
+            transition: width 0.3s;
+        }
+        .topics a:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="background" id="background"></div>
+    <div class="cpp-logo">C++</div>
+    <div class="header">
+        <a href="../index3.html">Home</a>
+        <h1>C++ Section</h1>
+    </div>
+    <div class="content">
+        <div class="chapter">
+            <h2>Chapter 1: Introduction to C++</h2>
+            <ul class="topics">
+                <li><a href="../notupload.html">What is C++?</a></li>
+                <li><a href="../notupload.html">Setting Up C++ Environment</a></li>
+                <li><a href="../notupload.html">First C++ Program</a></li>
+            </ul>
+        </div>
+        <div class="chapter">
+            <h2>Chapter 2: C++ Basics</h2>
+            <ul class="topics">
+                <li><a href="../notupload.html">Classes and Objects</a></li>
+                <li><a href="../notupload.html">Inheritance</a></li>
+                <li><a href="../notupload.html">Polymorphism</a></li>
+            </ul>
+        </div>
+        <div class="chapter">
+            <h2>Chapter 3: Advanced C++</h2>
+            <ul class="topics">
+                <li><a href="../notupload.html">Templates</a></li>
+                <li><a href="../notupload.html">Standard Template Library (STL)</a></li>
+                <li><a href="../notupload.html">Exception Handling</a></li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        const background = document.getElementById('background');
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = Math.random() * 100 + 'vh';
+            particle.style.animationDuration = Math.random() * 10 + 5 + 's';
+            background.appendChild(particle);
+            setTimeout(() => particle.remove(), 15000);
+        }
+
+        setInterval(createParticle, 200);
+    </script>
+</body>
+</html>

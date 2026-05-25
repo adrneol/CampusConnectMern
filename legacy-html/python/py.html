@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python - Campus Connect</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #0a0a1a;
+            color: #e0e0ff;
+            overflow-x: hidden;
+            position: relative;
+            perspective: 1000px;
+        }
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: radial-gradient(circle, #1a1a3a, #0a0a1a);
+        }
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: #FFD43B;
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: particleMove 15s linear infinite;
+        }
+        @keyframes particleMove {
+            0% { transform: translate(0, 0); opacity: 0.5; }
+            50% { opacity: 0.8; }
+            100% { transform: translate(100vw, 100vh); opacity: 0; }
+        }
+        .python-logo {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateY(0deg);
+            font-size: 150px;
+            font-family: monospace;
+            color: #FFD43B;
+            text-shadow: 0 0 30px #FFD43B, 0 0 60px #306998;
+            z-index: 0;
+            animation: rotate3D 10s infinite linear;
+        }
+        @keyframes rotate3D {
+            0% { transform: translate(-50%, -50%) rotateY(0deg); }
+            100% { transform: translate(-50%, -50%) rotateY(360deg); }
+        }
+        .header {
+            background: linear-gradient(90deg, #306998, #FFD43B, #306998);
+            background-size: 200%;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            animation: gradientShift 5s infinite linear;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0%; }
+            100% { background-position: 200%; }
+        }
+        .header a {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            color: #e0e0ff;
+            text-decoration: none;
+            font-weight: bold;
+            text-shadow: 0 0 10px #306998;
+        }
+        .header a:hover {
+            color: #FFD43B;
+            text-shadow: 0 0 20px #FFD43B;
+        }
+        .content {
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            background: rgba(20, 20, 40, 0.8);
+            border-radius: 15px;
+            margin: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid #FFD43B;
+            animation: reveal 2s ease-in-out;
+        }
+        @keyframes reveal {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .chapter {
+            margin-bottom: 20px;
+        }
+        .chapter h2 {
+            color: #FFD43B;
+            border-bottom: 2px solid #306998;
+            padding-bottom: 5px;
+            text-shadow: 0 0 10px #306998;
+        }
+        .topics {
+            margin-left: 20px;
+        }
+        .topics li {
+            margin: 10px 0;
+        }
+        .topics a {
+            color: #e0e0ff;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.3s, text-shadow 0.3s;
+        }
+        .topics a:hover {
+            transform: translateZ(10px) rotateX(10deg);
+            text-shadow: 0 0 15px #FFD43B;
+        }
+        .topics a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #FFD43B;
+            transition: width 0.3s;
+        }
+        .topics a:hover::after {
+            width: 100%;
+        }
+        .upload-section {
+            margin-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .upload-section input[type="file"] {
+            color: #e0e0ff;
+        }
+        .upload-section button {
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #FFD43B, #306998);
+            color: #e0e0ff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-shadow: 0 0 5px #306998;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .upload-section button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #FFD43B;
+        }
+        .upload-section p {
+            margin: 5px 0;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="background" id="background"></div>
+    <div class="python-logo" id="pythonLogo">🐍</div>
+    <div class="header">
+        <a href="../index3.html">Home</a>
+        <h1>Python Section</h1>
+    </div>
+    <div class="content">
+        <div class="chapter">
+            <h2>Chapter 1: Introduction to Python</h2>
+            <ul class="topics">
+                <li><a href="../notupload.html">What is Python?</a></li>
+                <li><a href="../notupload.html">Setting Up Python Environment</a></li>
+                <li><a href="../notupload.html">First Python Program</a></li>
+            </ul>
+        </div>
+        <div class="chapter">
+            <h2>Chapter 2: Python Basics</h2>
+            <ul class="topics">
+                <li><a href="../notupload.html">Variables and Data Types</a></li>
+                <li><a href="../notupload.html">Operators in Python</a></li>
+                <li><a href="../notupload.html">Control Structures</a></li>
+            </ul>
+        </div>
+        <div class="chapter">
+            <h2>Chapter 3: Functions and Modules</h2>
+            <ul class="topics">
+                <li><a href="../notupload.html">Defining Functions</a></li>
+                <li><a href="../notupload.html">Modules and Packages</a></li>
+                <li><a href="../notupload.html">Working with Libraries</a></li>
+            </ul>
+        </div>
+        <div class="chapter">
+            <h2>Chapter Conclusion: One in GO for Python Revision</h2>
+            <ul class="topics">
+                <li><a href="pythonnotes.html">One Shot</a></li>
+
+            </ul>
+        </div>
+        <div class="chapter">
+            <h2>Chapter 4: Install Python Resources</h2>
+            <div class="upload-section">
+    <input type="file" id="zipFileInput" accept=".zip" />
+    <button onclick="installZip()">Install ZIP File</button>
+    <a href="Python_Course_with_Notes.zip" download="Python_Course_with_Notes.zip">
+        <button>Download Python Course ZIP</button>
+    </a>
+    <p id="installMessage"></p>
+</div>
+
+        </div>
+    </div>
+    <script>
+        const background = document.getElementById('background');
+
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.top = Math.random() * 100 + 'vh';
+            particle.style.animationDuration = Math.random() * 10 + 5 + 's';
+            background.appendChild(particle);
+            setTimeout(() => particle.remove(), 15000);
+        }
+
+        setInterval(createParticle, 200);
+
+        function installZip() {
+            const zipInput = document.getElementById('zipFileInput');
+            const installMessage = document.getElementById('installMessage');
+            
+            if (zipInput.files.length === 0) {
+                installMessage.textContent = 'Please select a ZIP file to install.';
+                installMessage.style.color = '#ff6666';
+                return;
+            }
+
+            const file = zipInput.files[0];
+            if (!file.name.endsWith('.zip')) {
+                installMessage.textContent = 'Please upload a valid ZIP file.';
+                installMessage.style.color = '#ff6666';
+                return;
+            }
+
+            // Simulate ZIP installation process
+            installMessage.textContent = `Installing ${file.name}...`;
+            installMessage.style.color = '#FFD43B';
+
+            setTimeout(() => {
+                installMessage.textContent = `${file.name} has been successfully installed!`;
+                installMessage.style.color = '#e0e0ff';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

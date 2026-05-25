@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS - Campus Connect</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #ffffff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background Gradient Wave */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(45deg, #00ced1, #40e0d0, #00ced1);
+            background-size: 400%;
+            animation: gradientWave 15s ease-in-out infinite;
+        }
+
+        @keyframes gradientWave {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(to right, #00ced1, #40e0d0); /* CSS-inspired turquoise gradient */
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header a {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .header a:hover {
+            color: #1a1a1a;
+            transform: scale(1.1);
+        }
+
+        /* CSS Typing Animation Container */
+        .css-animation {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 1;
+            font-family: monospace;
+            color: #00ced1;
+            font-size: 14px;
+        }
+
+        .css-code {
+            white-space: pre;
+            overflow: hidden;
+            border-right: 2px solid #00ced1;
+            animation: typing 4s steps(30, end) infinite, blink 0.75s step-end infinite;
+        }
+
+        .demo-box {
+            width: 50px;
+            height: 50px;
+            background-color: #1a1a1a;
+            margin: 10px auto;
+            border-radius: 5px;
+            animation: applyStyles 4s infinite;
+        }
+
+        @keyframes typing {
+            0% { width: 0; }
+            50% { width: 100%; }
+            100% { width: 0; }
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        @keyframes applyStyles {
+            0% {
+                background-color: #1a1a1a;
+                width: 50px;
+                height: 50px;
+                border: 2px solid transparent;
+                transform: rotate(0deg);
+            }
+            50% {
+                background-color: #00ced1;
+                width: 70px;
+                height: 70px;
+                border: 2px solid #40e0d0;
+                transform: rotate(45deg);
+            }
+            100% {
+                background-color: #1a1a1a;
+                width: 50px;
+                height: 50px;
+                border: 2px solid transparent;
+                transform: rotate(0deg);
+            }
+        }
+
+        /* Content Section */
+        .content {
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        .chapter {
+            margin-bottom: 20px;
+        }
+
+        .chapter h2 {
+            color: #40e0d0; /* CSS turquoise for chapter titles */
+            border-bottom: 2px solid #00ced1; /* CSS darker turquoise for borders */
+            padding-bottom: 5px;
+        }
+
+        .topics {
+            margin-left: 20px;
+        }
+
+        .topics li {
+            margin: 10px 0;
+        }
+
+        .topics a {
+            color: #00ced1; /* CSS turquoise for links */
+            text-decoration: none;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .topics a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #40e0d0;
+            transition: width 0.3s ease;
+        }
+
+        .topics a:hover {
+            color: #40e0d0;
+        }
+
+        .topics a:hover::after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="header">
+        <a href="../index3.html">Home</a>
+        <h1>CSS Section</h1>
+    </div>
+    <div class="css-animation">
+        <div class="css-code">
+.box {
+  background-color: #00ced1;
+  width: 70px;
+  height: 70px;
+  border: 2px solid #40e0d0;
+  transform: rotate(45deg);
+}
+        </div>
+        <div class="demo-box"></div>
+    </div>
+    <div class="content">
+        <div class="chapter">
+            <h2>Chapter 1: Introduction to CSS</h2>
+            <ul class="topics">
+                <li><a href="../notupload.html">What is CSS?</a></li>
+                <li><a href="../notupload.html">CSS Syntax</a></li>
+                <li><a href="../notupload.html">Linking CSS to HTML</a></li>
+            </ul>
+        </div>
+        <div class="chapter">
+            <h2>Chapter 2: CSS Selectors</h2>
+            <ul class="topics">
+                <li><a href="../notupload.html">Element Selectors</a></li>
+                <li><a href="../notupload.html">Class and ID Selectors</a></li>
+                <li><a href="../notupload.html">Pseudo-Classes</a></li>
+            </ul>
+        </div>
+        <div class="chapter">
+            <h2>Chapter 3: CSS Layout</h2>
+            <ul class="topics">
+                <li><a href="../notupload.html">Box Model</a></li>
+                <li><a href="../notupload.html">Flexbox</a></li>
+                <li><a href="../notupload.html">Grid Layout</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

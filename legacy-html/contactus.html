@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Campus Connect</title>
+    <style>
+        /* General Body Styles */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #e2e8f0;
+            background: linear-gradient(135deg, #1a202c, #2d3748); /* Night mode default */
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        body.nebula-mode {
+            background: #000;
+            color: #fff;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        /* Logo */
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #e2e8f0;
+        }
+
+        body.nebula-mode .logo {
+            color: #fff;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Navigation Container */
+        .nav-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        /* Navbar Links */
+        .nav-links a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: white;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff6600;
+        }
+
+        /* Mode Toggle Buttons */
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .toggle-button {
+            display: flex;
+            align-items: center;
+            padding: 6px 12px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .night-button {
+            background: linear-gradient(45deg, #4a5568, #2d3748);
+            color: #e2e8f0;
+            box-shadow: 0 0 10px rgba(66, 153, 225, 0.5);
+        }
+
+        .night-button:hover {
+            background: linear-gradient(45deg, #5a6b8b, #3b4a6b);
+            box-shadow:  nothing like it0 15px rgba(66, 153, 225, 0.7);
+        }
+
+        .nebula-button {
+            background: linear-gradient(45deg, #9b59b6, #3498db);
+            color: #fff;
+            box-shadow: 0 0 10px rgba(155, 89, 182, 0.5);
+        }
+
+        .nebula-button:hover {
+            background: linear-gradient(45deg, #8e44ad, #2980b9);
+            box-shadow: 0 0 15px rgba(155, 89, 182, 0.7);
+        }
+
+        .toggle-button .icon {
+            margin-right: 6px;
+        }
+
+        .toggle-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Content Container */
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .container p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .contact-details {
+            font-size: 1rem;
+            text-align: left;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .contact-details p {
+            margin: 10px 0;
+        }
+
+        .contact-details a {
+            color: #ff6600;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-details a:hover {
+            color: #e65c00;
+        }
+
+        body.nebula-mode .contact-details a {
+            color: #9b59b6;
+        }
+
+        body.nebula-mode .contact-details a:hover {
+            color: #8e44ad;
+        }
+
+        /* Canvases */
+        #stars-canvas, #nebula-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="stars-canvas"></canvas>
+    <canvas id="nebula-canvas"></canvas>
+
+    <!-- HEADER SECTION -->
+    <div class="header">
+        <div class="logo">Campus Connect</div>
+        <div class="nav-container">
+            <nav class="nav-links">
+                <a href="index3.html">Home</a>
+                <a href="about.html">About Us</a>
+                <a href="#">Contact</a>
+            </nav>
+            <div class="mode-toggle">
+                <button id="night-toggle" class="toggle-button night-button">
+                    <span class="icon">🌙</span> Night
+                </button>
+                <button id="nebula-toggle" class="toggle-button nebula-button">
+                    <span class="icon">🌌</span> Nebula
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT SECTION -->
+    <div class="container">
+        <h1>Contact Us</h1>
+        <p>
+            Campus Connect is your go-to platform for concise, high-quality notes and code snippets in Python, C, C++, HTML, and CSS. Created by Adrneol General, an independent developer, this website aims to empower students and developers with accessible learning resources. Reach out to us for feedback, inquiries, or collaboration opportunities—we’d love to hear from you!
+        </p>
+        <div class="contact-details">
+            <p><strong>Address:</strong> Horizon, Earth</p>
+            <p><strong>Discord:</strong> adrneol</p>
+            <p><strong>Email:</strong> <a href="mailto:adrneol@gmail.com">adrneol@gmail.com</a></p>
+            <p><strong>Alternate Email:</strong> <a href="mailto:astpreapps@gmail.com">astpreapps@gmail.com</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Stars animation for Night mode
+        const starsCanvas = document.getElementById('stars-canvas');
+        const starsCtx = starsCanvas.getContext('2d');
+        starsCanvas.width = window.innerWidth;
+        starsCanvas.height = window.innerHeight;
+
+        class Star {
+            constructor() {
+                this.x = Math.random() * starsCanvas.width;
+                this.y = -10;
+                this.radius = Math.random() * 2 + 1;
+                this.speed = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.5 + 0.5;
+            }
+
+            draw() {
+                starsCtx.beginPath();
+                starsCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                starsCtx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                starsCtx.shadowColor = '#ffffff';
+                starsCtx.shadowBlur = 5;
+                starsCtx.fill();
+            }
+
+            update() {
+                this.y += this.speed;
+                if (this.y > starsCanvas.height) {
+                    this.y = -10;
+                    this.x = Math.random() * starsCanvas.width;
+                    this.opacity = Math.random() * 0.5 + 0.5;
+                }
+            }
+        }
+
+        const stars = [];
+        for (let i = 0; i < 100; i++) {
+            stars.push(new Star());
+        }
+
+        function animateStars() {
+            starsCtx.clearRect(0, 0, starsCanvas.width, starsCanvas.height);
+            stars.forEach(star => {
+                star.draw();
+                star.update();
+            });
+            requestAnimationFrame(animateStars);
+        }
+
+        // Nebula animation for Nebula mode
+        const nebulaCanvas = document.getElementById('nebula-canvas');
+        const nebulaCtx = nebulaCanvas.getContext('2d');
+        nebulaCanvas.width = window.innerWidth;
+        nebulaCanvas.height = window.innerHeight;
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * nebulaCanvas.width;
+                this.y = Math.random() * nebulaCanvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.color = ['#9b59b6', '#3498db', '#e74c3c', '#8e44ad'][Math.floor(Math.random() * 4)];
+                this.opacity = Math.random() * 0.5 + 0.3;
+            }
+
+            draw() {
+                nebulaCtx.beginPath();
+                nebulaCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                nebulaCtx.fillStyle = this.color;
+                nebulaCtx.globalAlpha = this.opacity;
+                nebulaCtx.shadowColor = this.color;
+                nebulaCtx.shadowBlur = 10;
+                nebulaCtx.fill();
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > nebulaCanvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > nebulaCanvas.height) this.speedY *= -1;
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 200; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateNebula() {
+            nebulaCtx.clearRect(0, 0, nebulaCanvas.width, nebulaCanvas.height);
+            nebulaCtx.globalAlpha = 1;
+            particles.forEach(particle => {
+                particle.draw();
+                particle.update();
+            });
+            requestAnimationFrame(animateNebula);
+        }
+
+        // Mode toggle logic
+        const body = document.body;
+        const nightToggle = document.getElementById('night-toggle');
+        const nebulaToggle = document.getElementById('nebula-toggle');
+
+        function setNightMode() {
+            body.classList.remove('nebula-mode');
+            starsCanvas.style.display = 'block';
+            nebulaCanvas.style.display = 'none';
+            nightToggle.classList.add('night-button');
+            nebulaToggle.classList.remove('nebula-button');
+            nightToggle.disabled = true;
+            nebulaToggle.disabled = false;
+        }
+
+        function setNebulaMode() {
+            body.classList.add('nebula-mode');
+            starsCanvas.style.display = 'none';
+            nebulaCanvas.style.display = 'block';
+            animateNebula();
+            nightToggle.classList.remove('night-button');
+            nebulaToggle.classList.add('nebula-button');
+            nightToggle.disabled = false;
+            nebulaToggle.disabled = true;
+        }
+
+        nightToggle.addEventListener('click', setNightMode);
+        nebulaToggle.addEventListener('click', setNebulaMode);
+
+        // Initialize Night mode
+        setNightMode();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            starsCanvas.width = window.innerWidth;
+            starsCanvas.height = window.innerHeight;
+            nebulaCanvas.width = window.innerWidth;
+            nebulaCanvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
