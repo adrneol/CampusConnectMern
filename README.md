@@ -74,3 +74,15 @@ Rename:
 - frontend/.env.example → frontend/.env  ##(if present insinde the frontend.)
 
 Then fill the required values.
+
+## Local Database Setup
+
+This project uses a fallback JSON database.
+
+Before running:
+
+1. Navigate to `backend/server/data`
+2. Copy `db2.json`
+3. Rename the copy to `db.json`
+
+The `db.json` file is ignored by Git and stores local runtime data.
