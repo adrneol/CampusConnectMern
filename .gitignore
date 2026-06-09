@@ -36,3 +36,6 @@ temp/
 
 # coverage
 coverage/
+
+# local data
+backend/server/data/db.json
